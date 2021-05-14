@@ -1,27 +1,35 @@
 package com.brunobr9.cursomc.resources;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brunobr9.cursomc.domain.Categoria;
-import com.brunobr9.cursomc.modelo.resources.IdLongResources;
+import com.brunobr9.cursomc.domain.Cliente;
+import com.brunobr9.cursomc.dto.CategoriaDTO;
+import com.brunobr9.cursomc.dto.ClienteDTO;
+import com.brunobr9.cursomc.modelo.resources.ResourcesInterface;
 import com.brunobr9.cursomc.services.CategoriaService;
+import com.brunobr9.cursomc.services.ClienteService;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @RestController
-@RequestMapping("/categorias")
-public class CategoriaResource extends IdLongResources<Categoria> {
+@RequestMapping("/cliente")
+@AllArgsConstructor
+public class CategoriaResource implements ResourcesInterface<ClienteDTO, Cliente> {
 
-    @Autowired
-    private CategoriaService categoriaService;
+    @Getter
+    private ClienteService service;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Categoria> listar() {
-	return categoriaService.findAll();
+    @Override
+    public Cliente entityConverter(ClienteDTO dto) {
+	return new Cliente(dto);
+    }
+
+    @Override
+    public ClienteDTO dataObjectConverter(Cliente entity) {
+	return new ClienteDTO(entity);
     }
 
 }

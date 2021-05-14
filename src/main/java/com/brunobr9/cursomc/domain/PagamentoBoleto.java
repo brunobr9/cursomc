@@ -5,12 +5,14 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 public class PagamentoBoleto extends Pagamento {
 
     private static final long serialVersionUID = 1L;
@@ -18,7 +20,7 @@ public class PagamentoBoleto extends Pagamento {
     @Column(nullable = false)
     private Date dataVencimento;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dataPagamento;
 
 }

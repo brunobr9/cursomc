@@ -18,4 +18,7 @@ public class PagamentoCartao extends Pagamento {
     @Column(nullable = false)
     private Integer numeroParcelas;
 
+    @Column(nullable = false)
+    private String numeroCartao;
+
 }

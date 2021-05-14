@@ -7,4 +7,5 @@ import com.brunobr9.cursomc.modelo.repository.IdLongNomeRepository;
 
 @Repository
 public interface CategoriaRepository extends IdLongNomeRepository<Categoria> {
+    
 }

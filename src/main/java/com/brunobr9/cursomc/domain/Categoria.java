@@ -1,12 +1,41 @@
 package com.brunobr9.cursomc.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import com.brunobr9.cursomc.modelo.domain.IdLongNomeMapped;
+import com.brunobr9.cursomc.dto.CategoriaDTO;
+import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-public class Categoria extends IdLongNomeMapped {
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Categoria implements IdLongNomeEntity {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String nome;
+
+    public Categoria(CategoriaDTO categoriaDTO) {
+	id = categoriaDTO.getId();
+	nome = categoriaDTO.getNome();
+    }
 
 }

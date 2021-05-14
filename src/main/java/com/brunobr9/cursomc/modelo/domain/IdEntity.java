@@ -4,14 +4,27 @@ import java.io.Serializable;
 
 import com.brunobr9.cursomc.exceptions.ServiceException;
 
-public interface IdEntity<ID> extends Serializable {
+public interface IdEntity<T> extends Serializable {
 
-    ID getId();
+    T getId();
 
-    void checkBeforeInsert() throws ServiceException;
+    void setId(T id);
 
-    void checkBeforeUpdate() throws ServiceException;
+    default void checkBeforeInsert() throws ServiceException {
+	if (getId() != null) {
+	    throw new ServiceException("Não é possível inserir objeto com id não nulo.");
+	}
+    }
 
-    void checkBeforeDelete() throws ServiceException;
+    default void checkBeforeUpdate() throws ServiceException {
+	if (getId() == null) {
+	    throw new ServiceException("Não é possível atualizar objeto com id nulo.");
+	}
+    }
 
+    default void checkBeforeDelete() throws ServiceException {
+	if (getId() == null) {
+	    throw new ServiceException("Não é possível deletar objeto com id nulo.");
+	}
+    }
 }
