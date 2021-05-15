@@ -8,4 +8,5 @@ import com.brunobr9.cursomc.modelo.repository.IdLongNomeRepository;
 @Repository
 public interface ClienteRepository extends IdLongNomeRepository<Cliente> {
 
+    Cliente findByEmail(String email);
 }

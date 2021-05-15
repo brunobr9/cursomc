@@ -3,30 +3,30 @@ package com.brunobr9.cursomc.resources;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brunobr9.cursomc.domain.Cliente;
-import com.brunobr9.cursomc.dto.ClienteDTO;
+import com.brunobr9.cursomc.domain.Categoria;
+import com.brunobr9.cursomc.dto.CategoriaDTO;
 import com.brunobr9.cursomc.modelo.resources.ResourcesInterface;
-import com.brunobr9.cursomc.services.ClienteService;
+import com.brunobr9.cursomc.services.CategoriaService;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/categoria")
 @AllArgsConstructor
-public class CategoriaResource implements ResourcesInterface<ClienteDTO, Cliente> {
+public class CategoriaResource implements ResourcesInterface<CategoriaDTO, Categoria> {
 
     @Getter
-    private ClienteService service;
+    private CategoriaService service;
 
     @Override
-    public Cliente entityConverter(ClienteDTO dto) {
-	return new Cliente(dto);
+    public Categoria entityConverter(CategoriaDTO categoriaDTO) {
+	return new Categoria(categoriaDTO);
     }
 
     @Override
-    public ClienteDTO dataObjectConverter(Cliente entity) {
-	return new ClienteDTO(entity);
+    public CategoriaDTO dataObjectConverter(Categoria categoria) {
+	return new CategoriaDTO(categoria);
     }
 
 }

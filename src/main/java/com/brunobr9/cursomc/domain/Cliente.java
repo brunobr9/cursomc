@@ -1,6 +1,12 @@
 package com.brunobr9.cursomc.domain;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.brunobr9.cursomc.domain.enums.Perfil;
 import com.brunobr9.cursomc.domain.enums.TipoCliente;
 import com.brunobr9.cursomc.dto.ClienteDTO;
 import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
@@ -25,11 +32,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Cliente implements IdLongNomeEntity {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final Set<Perfil> perfilDefault = new HashSet<>(Arrays.asList(Perfil.CLIENTE));
 
     @Id
     @Column(nullable = false)
@@ -59,9 +68,20 @@ public class Cliente implements IdLongNomeEntity {
     @Column(nullable = true)
     private String telefone;
 
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PERFIS")
+    @Enumerated(EnumType.STRING)
+    private Set<Perfil> perfis = perfilDefault;
+
+    public void addPerfil(Perfil perfil) {
+	perfis.add(perfil);
+    }
+
     public Cliente(ClienteDTO dto) {
 	id = dto.getId();
 	nome = dto.getNome();
 	email = dto.getEmail();
     }
+
 }

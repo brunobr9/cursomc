@@ -12,6 +12,7 @@ import com.brunobr9.cursomc.domain.Cliente;
 import com.brunobr9.cursomc.domain.Endereco;
 import com.brunobr9.cursomc.domain.Estado;
 import com.brunobr9.cursomc.domain.Produto;
+import com.brunobr9.cursomc.domain.enums.Perfil;
 import com.brunobr9.cursomc.domain.enums.TipoCliente;
 import com.brunobr9.cursomc.exceptions.ServiceException;
 
@@ -64,14 +65,15 @@ public class DBService {
 	produtoService.insertAll(Arrays.asList(p1, p2));	
 	
 	Cliente cl1 = Cliente.builder()
-		.nome("Bruno Henrique Souza dos Santos")
+		.nome("Bruno")
 		.email("brunobr9@hotmail.com")
-		.cpfOuCnpj("09845813402")
+		.cpfOuCnpj("09545512205")
 		.endereco(end)
 		.tipoCliente(TipoCliente.PESSOA_FISICA)
 		.telefone(null)
-		.senha("2f9437F8H")
+		.senha("123456")
 		.build();
+	cl1.addPerfil(Perfil.ADMIN);
 	clienteService.insert(cl1);
 	
 //	Pedido.builder()

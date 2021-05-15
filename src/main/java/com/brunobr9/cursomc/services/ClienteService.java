@@ -26,4 +26,8 @@ public class ClienteService implements ServiceInterface<Cliente, Long> {
 	ServiceInterface.super.processBeforeInsert(object);
     }
 
+    public Cliente findByEmail(String email) {
+	return repositoryInterface.findByEmail(email);
+    }
+
 }
