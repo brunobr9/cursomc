@@ -15,12 +15,18 @@ import com.brunobr9.cursomc.domain.enums.TipoCliente;
 import com.brunobr9.cursomc.dto.ClienteDTO;
 import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cliente implements IdLongNomeEntity {
 
     private static final long serialVersionUID = 1L;
@@ -33,14 +39,17 @@ public class Cliente implements IdLongNomeEntity {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = true, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String senha;
 
     @Column(nullable = false, unique = true)
     private String cpfOuCnpj;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
     @Column(nullable = false)

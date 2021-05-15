@@ -18,12 +18,16 @@ import javax.persistence.OneToMany;
 
 import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class Produto implements IdLongNomeEntity {
 
     private static final long serialVersionUID = 1L;

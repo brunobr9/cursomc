@@ -1,6 +1,6 @@
 package com.brunobr9.cursomc.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,9 +18,16 @@ public class PagamentoBoleto extends Pagamento {
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false)
-    private Date dataVencimento;
+    private LocalDateTime dataVencimento;
 
     @Column(nullable = true)
-    private Date dataPagamento;
+    private LocalDateTime dataPagamento;
+
+    @Override
+    public void processarPagamento() {
+	super.processarPagamento();
+	setDataPagamento(getDataCadastro());
+	setDataVencimento(dataPagamento.plusDays(3));
+    }
 
 }

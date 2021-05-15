@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import com.brunobr9.cursomc.dto.EstadoDTO;
 import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +18,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Estado implements IdLongNomeEntity {
 
@@ -28,6 +32,9 @@ public class Estado implements IdLongNomeEntity {
 
     @Column(nullable = false)
     private String nome;
+    
+    @Column(nullable = false)
+    private String sigla;
 
     public Estado(EstadoDTO dto) {
 	id = dto.getId();

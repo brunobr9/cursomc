@@ -1,10 +1,10 @@
 package com.brunobr9.cursomc.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +27,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Pedido implements IdEntity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +46,7 @@ public class Pedido implements IdEntity<Long> {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "id.pedido", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id.pedido", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ItemPedido> itensPedido;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

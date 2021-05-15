@@ -1,6 +1,6 @@
 package com.brunobr9.cursomc.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,9 +34,14 @@ public abstract class Pagamento implements IdEntity<Long> {
     private Long id;
 
     @Column(nullable = false)
-    private Date dataCadastro;
+    private LocalDateTime dataCadastro;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoPagamento estadoPagamento;
+
+    public void processarPagamento() {
+	setDataCadastro(LocalDateTime.now());
+    }
+
 }

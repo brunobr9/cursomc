@@ -8,39 +8,40 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 import com.brunobr9.cursomc.modelo.repository.RepositoryInterface;
 
-@Service
+@Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRES_NEW)
 public interface ServiceInterface<T extends IdEntity<ID>, ID> {
 
     RepositoryInterface<T, ID> getRepositoryInterface();
 
-    default void processBeforeInsert() {
-    }
-
-    default void processBeforeUpdate() {
-    }
-
-    default <S extends T> S insert(S object) throws ServiceException {
+    default void processBeforeInsert(T object) throws ServiceException {
 	object.checkBeforeInsert();
-	processBeforeInsert();
+    }
+
+    default void processBeforeUpdate(T object) throws ServiceException {
+	object.checkBeforeUpdate();
+    }
+
+    default T insert(T object) throws ServiceException {
+	processBeforeInsert(object);
 	object.setId(null);
 	return getRepositoryInterface().save(object);
     }
-    
+
     default void insertAll(Iterable<? extends T> objects) throws ServiceException {
 	for (T t : objects) {
 	    getRepositoryInterface().save(t);
 	}
     }
 
-    default <S extends T> S update(S object) throws ServiceException {
-	object.checkBeforeUpdate();
-	processBeforeUpdate();
+    default T update(T object) throws ServiceException {
+	processBeforeUpdate(object);
 	return getRepositoryInterface().save(object);
     }
 
@@ -62,6 +63,5 @@ public interface ServiceInterface<T extends IdEntity<ID>, ID> {
 	return getRepositoryInterface()
 		.findAll(PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy));
     }
-    
 
 }

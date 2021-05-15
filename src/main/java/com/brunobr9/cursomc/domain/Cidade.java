@@ -11,12 +11,18 @@ import javax.persistence.ManyToOne;
 
 import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cidade implements IdLongNomeEntity {
 
     private static final long serialVersionUID = 1L;

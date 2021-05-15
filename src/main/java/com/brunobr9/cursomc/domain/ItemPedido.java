@@ -9,12 +9,15 @@ import javax.persistence.Entity;
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class ItemPedido implements IdEntity<ItemPedidoPK> {
 
     private static final long serialVersionUID = 1L;
@@ -40,8 +43,8 @@ public class ItemPedido implements IdEntity<ItemPedidoPK> {
 	return id.getProduto();
     }
 
+    @Builder
     public ItemPedido(Pedido pedido, Produto produto, BigDecimal desconto, BigDecimal preco, Integer quantidade) {
-	super();
 	this.id.setPedido(pedido);
 	this.id.setProduto(produto);
 	this.desconto = desconto;

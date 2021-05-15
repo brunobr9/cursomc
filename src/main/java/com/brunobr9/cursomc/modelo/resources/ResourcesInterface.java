@@ -9,8 +9,6 @@ import javax.validation.Valid;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +22,6 @@ import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 import com.brunobr9.cursomc.modelo.services.ServiceInterface;
 
-@Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRES_NEW)
 public interface ResourcesInterface<T extends IdEntityDTO<Long>, U extends IdEntity<Long>> {
 
     String PATH_ID = "/{id}";
@@ -64,8 +61,7 @@ public interface ResourcesInterface<T extends IdEntityDTO<Long>, U extends IdEnt
     }
 
     @GetMapping(path = "/page")
-    default ResponseEntity<Page<T>> findPage(
-	    @RequestParam(value = "page", defaultValue = "0") Integer page,
+    default ResponseEntity<Page<T>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	    @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
 	    @RequestParam(value = "orderBy", defaultValue = "id") String orderBy,
 	    @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
