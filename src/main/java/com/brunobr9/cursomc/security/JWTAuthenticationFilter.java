@@ -61,7 +61,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * Implementação para evitar status de erros indesejados para spring boot na
      * versão 2.x.x
      */
-    private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
+    private static class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

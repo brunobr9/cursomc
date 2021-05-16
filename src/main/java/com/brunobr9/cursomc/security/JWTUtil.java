@@ -1,10 +1,12 @@
 package com.brunobr9.cursomc.security;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -21,7 +23,33 @@ public class JWTUtil {
 	return Jwts.builder()
 		.setSubject(username)
 		.setExpiration(new Date(System.currentTimeMillis() + 60000l))
-		.signWith(SignatureAlgorithm.HS512, secret.getBytes())
+		.signWith(SignatureAlgorithm.HS512, secret.getBytes(StandardCharsets.UTF_8))
+//		.signWith(SignatureAlgorithm.HS512, DatatypeConverter.parseBase64Binary(secret))
 		.compact();
+    }
+
+    public boolean tokenValido(String token) {
+	Claims claims = getClaims(token);
+	if (claims != null) {
+	    String username = claims.getSubject();
+	    Date expirationDate = claims.getExpiration();
+	    Date now = new Date(System.currentTimeMillis());
+	    return username != null && expirationDate != null && now.before(expirationDate);
+	}
+
+	return false;
+    }
+
+    public String getUsername(String token) {
+	Claims claims = getClaims(token);
+	return claims != null ? claims.getSubject() : null;
+    }
+
+    private Claims getClaims(String token) {
+	try {
+	    return Jwts.parser().setSigningKey(secret.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
+	} catch (Exception e) {
+	    return null;
+	}
     }
 }
