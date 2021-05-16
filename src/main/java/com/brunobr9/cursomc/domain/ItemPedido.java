@@ -53,7 +53,7 @@ public class ItemPedido implements IdEntity<ItemPedidoPK> {
     }
 
     public BigDecimal getSubTotal() {
-	return (preco.subtract(desconto)).multiply(new BigDecimal(String.valueOf(quantidade)));
+	return preco.subtract(desconto).multiply(new BigDecimal(String.valueOf(quantidade)));
     }
 
 }

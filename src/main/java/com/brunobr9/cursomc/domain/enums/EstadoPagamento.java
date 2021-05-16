@@ -1,7 +1,10 @@
 package com.brunobr9.cursomc.domain.enums;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum EstadoPagamento {
 
     PENDENTE("Pendente"), 
@@ -10,9 +13,5 @@ public enum EstadoPagamento {
 
     @Getter
     private String label;
-
-    private EstadoPagamento(String label) {
-	this.label = label;
-    }
 
 }
