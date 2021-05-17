@@ -59,7 +59,7 @@ public interface ServiceInterface<T extends IdEntity<ID>, ID> {
 	return obj.orElseThrow(() -> new ObjectNotFoundException((Serializable) id, this.getClass().getName()));
     }
 
-    default Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+    default Page<T> findAllPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 	return getRepositoryInterface()
 		.findAll(PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy));
     }

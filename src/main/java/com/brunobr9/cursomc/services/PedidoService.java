@@ -46,7 +46,7 @@ public class PedidoService implements ServiceInterface<Pedido, Long> {
 	return pedidoRepository;
     }
 
-    public Page<Pedido> findPageCliente(Integer page, Integer linesPerPage, String orderBy, String direction)
+    public Page<Pedido> findPageByCliente(Integer page, Integer linesPerPage, String orderBy, String direction)
 	    throws ObjectNotFoundException, ServiceException {
 	UserSS user = UserService.authenticated();
 

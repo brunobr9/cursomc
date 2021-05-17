@@ -1,5 +1,7 @@
 package com.brunobr9.cursomc.resources;
 
+import javax.validation.Valid;
+
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import com.brunobr9.cursomc.domain.Pedido;
 import com.brunobr9.cursomc.dto.PedidoDTO;
 import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.resources.ResourcesInterface;
+import com.brunobr9.cursomc.modelo.resources.annotations.PermissaoAdmin;
 import com.brunobr9.cursomc.services.PedidoService;
 
 import lombok.AllArgsConstructor;
@@ -35,15 +38,15 @@ public class PedidoResource implements ResourcesInterface<PedidoDTO, Pedido> {
 	return new PedidoDTO(pedido);
     }
 
-    @GetMapping(path = PAGE + "/pedido-cliente")
-    public ResponseEntity<Page<PedidoDTO>> findPageCliente(
-	    @RequestParam(value = "page", defaultValue = "0") Integer page,
+    @GetMapping(path = PAGE)
+    @Override
+    public ResponseEntity<Page<PedidoDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 	    @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
 	    @RequestParam(value = "orderBy", defaultValue = "dataPedido") String orderBy,
 	    @RequestParam(value = "direction", defaultValue = "DESC") String direction)
 	    throws ObjectNotFoundException, ServiceException {
 
-	Page<Pedido> pageEntity = getService().findPageCliente(page, linesPerPage, orderBy, direction);
+	Page<Pedido> pageEntity = getService().findPageByCliente(page, linesPerPage, orderBy, direction);
 	Page<PedidoDTO> pageDTO = pageEntity.map(this::dataObjectConverter);
 
 	return ResponseEntity.ok().body(pageDTO);
