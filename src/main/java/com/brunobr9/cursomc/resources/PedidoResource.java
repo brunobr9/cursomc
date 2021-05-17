@@ -35,7 +35,7 @@ public class PedidoResource implements ResourcesInterface<PedidoDTO, Pedido> {
 	return new PedidoDTO(pedido);
     }
 
-    @GetMapping(path = PAGE + "/pedido-cliente")
+    @GetMapping(path = PAGE + "-cliente")
     public ResponseEntity<Page<PedidoDTO>> findPageCliente(
 	    @RequestParam(value = "page", defaultValue = "0") Integer page,
 	    @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,

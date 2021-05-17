@@ -1,14 +1,16 @@
 package com.brunobr9.cursomc.resources;
 
-import org.hibernate.ObjectNotFoundException;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brunobr9.cursomc.domain.Cliente;
 import com.brunobr9.cursomc.dto.ClienteDTO;
-import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.resources.ResourcesInterface;
+import com.brunobr9.cursomc.modelo.resources.annotations.PermissaoAdmin;
 import com.brunobr9.cursomc.services.ClienteService;
 
 import lombok.AllArgsConstructor;
@@ -33,8 +35,15 @@ public class ClienteResource implements ResourcesInterface<ClienteDTO, Cliente> 
     }
 
     @Override
-    public ResponseEntity<ClienteDTO> buscar(Long id) throws ObjectNotFoundException, ServiceException {
-	return ResourcesInterface.super.buscar(id);
+    @PermissaoAdmin
+    public ResponseEntity<List<ClienteDTO>> findAll() {
+	return ResourcesInterface.super.findAll();
     }
 
+    @Override
+    @PermissaoAdmin
+    public ResponseEntity<Page<ClienteDTO>> findPage(Integer page, Integer linesPerPage, String orderBy,
+	    String direction) {
+	return ResourcesInterface.super.findPage(page, linesPerPage, orderBy, direction);
+    }
 }
