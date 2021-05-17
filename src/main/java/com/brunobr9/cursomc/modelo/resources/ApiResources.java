@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.brunobr9.cursomc.exceptions.ServiceException;
+
 public interface ApiResources<T> {
 
     public static final String PATH_ID = "/{id}";
@@ -19,7 +21,7 @@ public interface ApiResources<T> {
     public static final String PAGE = "page";
 
     @PostMapping
-    ResponseEntity<T> insert(@Valid @RequestBody T dto);
+    ResponseEntity<T> insert(@Valid @RequestBody T dto) throws ServiceException;
 
     @PutMapping(value = PATH_ID)
     ResponseEntity<Void> update(@Valid @RequestBody T dto, @PathVariable Long id);

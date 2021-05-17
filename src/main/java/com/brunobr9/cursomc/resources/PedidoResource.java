@@ -1,7 +1,5 @@
 package com.brunobr9.cursomc.resources;
 
-import javax.validation.Valid;
-
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import com.brunobr9.cursomc.domain.Pedido;
 import com.brunobr9.cursomc.dto.PedidoDTO;
 import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.resources.ResourcesInterface;
-import com.brunobr9.cursomc.modelo.resources.annotations.PermissaoAdmin;
 import com.brunobr9.cursomc.services.PedidoService;
 
 import lombok.AllArgsConstructor;
