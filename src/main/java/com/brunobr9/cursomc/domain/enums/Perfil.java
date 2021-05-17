@@ -8,8 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Perfil {
 
-    CLIENTE("Cliente"), 
-    ADMIN("Administrador");
+    CLIENTE("CLIENTE"), 
+    ADMIN("ADMIN");
 
     private String label;
 

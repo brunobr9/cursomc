@@ -22,7 +22,7 @@ public class JWTUtil {
     public String generateToken(String username) {
 	return Jwts.builder()
 		.setSubject(username)
-		.setExpiration(new Date(System.currentTimeMillis() + 60000l))
+		.setExpiration(new Date(System.currentTimeMillis() + 3600000l))
 		.signWith(SignatureAlgorithm.HS512, secret.getBytes(StandardCharsets.UTF_8))
 //		.signWith(SignatureAlgorithm.HS512, DatatypeConverter.parseBase64Binary(secret))
 		.compact();
