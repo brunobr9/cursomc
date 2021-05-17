@@ -20,6 +20,7 @@ import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +29,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "itensPedido")
 public class Produto implements IdLongNomeEntity {
 
     private static final long serialVersionUID = 1L;

@@ -10,6 +10,7 @@ import com.brunobr9.cursomc.modelo.domain.IdEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ItemPedido implements IdEntity<ItemPedidoPK> {
 
     private static final long serialVersionUID = 1L;
@@ -44,16 +46,16 @@ public class ItemPedido implements IdEntity<ItemPedidoPK> {
     }
 
     @Builder
-    public ItemPedido(Pedido pedido, Produto produto, BigDecimal desconto, BigDecimal preco, Integer quantidade) {
-	this.id.setPedido(pedido);
-	this.id.setProduto(produto);
+    public ItemPedido(Pedido pedido, Produto produto, BigDecimal desconto, Integer quantidade) {
+	this.id = ItemPedidoPK.builder().pedido(pedido).produto(produto).build();
 	this.desconto = desconto;
-	this.preco = preco;
 	this.quantidade = quantidade;
+	this.preco = produto.getPreco();
     }
 
     public BigDecimal getSubTotal() {
-	return preco.subtract(desconto).multiply(new BigDecimal(String.valueOf(quantidade)));
+	BigDecimal precoComDesconto = preco.subtract(desconto);
+	return precoComDesconto.multiply(new BigDecimal(String.valueOf(quantidade)));
     }
 
 }

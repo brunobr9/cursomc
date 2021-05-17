@@ -1,10 +1,13 @@
 package com.brunobr9.cursomc.resources;
 
+import org.hibernate.ObjectNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brunobr9.cursomc.domain.Cliente;
 import com.brunobr9.cursomc.dto.ClienteDTO;
+import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.resources.ResourcesInterface;
 import com.brunobr9.cursomc.services.ClienteService;
 
@@ -27,6 +30,11 @@ public class ClienteResource implements ResourcesInterface<ClienteDTO, Cliente> 
     @Override
     public ClienteDTO dataObjectConverter(Cliente entity) {
 	return new ClienteDTO(entity);
+    }
+
+    @Override
+    public ResponseEntity<ClienteDTO> buscar(Long id) throws ObjectNotFoundException, ServiceException {
+	return ResourcesInterface.super.buscar(id);
     }
 
 }

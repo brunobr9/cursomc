@@ -27,8 +27,8 @@ public class UserSS implements UserDetails {
 	this.id = id;
 	this.email = email;
 	this.senha = senha;
-	authorities = perfis.stream().map(p -> new SimpleGrantedAuthority(p.getLabel())).collect(Collectors.toList());
-
+	authorities = perfis.stream().map(p -> new SimpleGrantedAuthority("ROLE_" + p.getLabel()))
+		.collect(Collectors.toList());
     }
 
     @Override
@@ -64,6 +64,10 @@ public class UserSS implements UserDetails {
     @Override
     public boolean isEnabled() {
 	return true;
+    }
+
+    public boolean hasRole(Perfil perfil) {
+	return authorities.stream().map(x -> x.getAuthority()).anyMatch(x -> x.equals("ROLE_" + perfil.getLabel()));
     }
 
 }

@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.brunobr9.cursomc.dto.PedidoDTO;
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "itensPedido")
 @AllArgsConstructor
 public class Pedido implements IdEntity<Long> {
 
@@ -60,4 +61,11 @@ public class Pedido implements IdEntity<Long> {
     public Pedido() {
 	itensPedido = new HashSet<>();
     }
+
+    public Pedido(PedidoDTO pedidoDTO) {
+	id = pedidoDTO.getId();
+	cliente = new Cliente(pedidoDTO.getCliente());
+	dataPedido = pedidoDTO.getDataPedido();
+    }
+
 }

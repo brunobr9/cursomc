@@ -1,6 +1,5 @@
 package com.brunobr9.cursomc.domain;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +37,7 @@ public class Cliente implements IdLongNomeEntity {
 
     private static final long serialVersionUID = 1L;
     
-    private static final Set<Perfil> perfilDefault = new HashSet<>(Arrays.asList(Perfil.CLIENTE));
+//    private static final Set<Perfil> perfilDefault = new HashSet<>(Arrays.asList(Perfil.CLIENTE));
 
     @Id
     @Column(nullable = false)
@@ -72,7 +71,7 @@ public class Cliente implements IdLongNomeEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "PERFIS")
     @Enumerated(EnumType.STRING)
-    private Set<Perfil> perfis = perfilDefault;
+    private Set<Perfil> perfis = new HashSet<>();
 
     public void addPerfil(Perfil perfil) {
 	perfis.add(perfil);

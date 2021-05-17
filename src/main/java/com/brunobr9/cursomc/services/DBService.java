@@ -1,7 +1,9 @@
 package com.brunobr9.cursomc.services;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,9 @@ import com.brunobr9.cursomc.domain.Cidade;
 import com.brunobr9.cursomc.domain.Cliente;
 import com.brunobr9.cursomc.domain.Endereco;
 import com.brunobr9.cursomc.domain.Estado;
+import com.brunobr9.cursomc.domain.ItemPedido;
+import com.brunobr9.cursomc.domain.PagamentoBoleto;
+import com.brunobr9.cursomc.domain.Pedido;
 import com.brunobr9.cursomc.domain.Produto;
 import com.brunobr9.cursomc.domain.enums.Perfil;
 import com.brunobr9.cursomc.domain.enums.TipoCliente;
@@ -36,6 +41,9 @@ public class DBService {
     
     @Autowired
     private EnderecoService enderecoService;
+    
+    @Autowired
+    private PedidoService pedidoService;
 
     public void initDatabase() throws ServiceException {
 	Estado estado = Estado.builder().nome("Rio Grande do Norte").sigla("RN").build();
@@ -45,10 +53,10 @@ public class DBService {
 	cidade = cidadeService.insert(cidade);
 	
 	Endereco end = Endereco.builder()
-		.logradouro("Rua das Andorinhas")
-		.numero("8074")
+		.logradouro("Rua das Aves")
+		.numero("9090")
 		.bairro("Pitimbu")
-		.cep("59067390")
+		.cep("541269")
 		.cidade(cidade)
 		.build();
 	end = enderecoService.insert(end);
@@ -60,13 +68,13 @@ public class DBService {
 	categoriaService.insertAll(Arrays.asList(c1, c2, c3, c4));
 	
 	Categoria catTec = categoriaService.findByNome("Tecnologia");
-	Produto p1 = Produto.builder().categoria(catTec).preco(new BigDecimal(200)).nome("Teclado").build();
-	Produto p2 = Produto.builder().categoria(catTec).preco(new BigDecimal(100)).nome("Mouse").build();
-	produtoService.insertAll(Arrays.asList(p1, p2));	
+	Produto produto1 = Produto.builder().categoria(catTec).preco(new BigDecimal(200)).nome("Teclado").build();
+	Produto produto2 = Produto.builder().categoria(catTec).preco(new BigDecimal(100)).nome("Mouse").build();
+	produtoService.insertAll(Arrays.asList(produto1, produto2));	
 	
 	Cliente cl1 = Cliente.builder()
 		.nome("Bruno")
-		.email("brunobr9@hotmail.com")
+		.email("bruno@hotmail.com")
 		.cpfOuCnpj("09545512205")
 		.endereco(end)
 		.tipoCliente(TipoCliente.PESSOA_FISICA)
@@ -74,16 +82,40 @@ public class DBService {
 		.senha("123456")
 		.build();
 	cl1.addPerfil(Perfil.ADMIN);
-	clienteService.insert(cl1);
+	cl1 = clienteService.insert(cl1);
 	
-//	Pedido.builder()
-//		.dataPedido(LocalDateTime.now())
-//		.cliente(null)
-//		.enderecoEntrega(null)
-//		.pagamento(new PagamentoBoleto());
-//	
+	Cliente cl2 = Cliente.builder()
+		.nome("Ana")
+		.email("ana@hotmail.com")
+		.cpfOuCnpj("04587513408")
+		.endereco(end)
+		.tipoCliente(TipoCliente.PESSOA_FISICA)
+		.telefone(null)
+		.senha("987654")
+		.perfis(new HashSet<>(Arrays.asList(Perfil.CLIENTE)))
+		.build();
+	 cl2 = clienteService.insert(cl2);
 	
-//	ItemPedido.builder().produto(p1)
-
+	Pedido pedido = Pedido.builder()
+		.dataPedido(LocalDateTime.now())
+		.cliente(cl1)
+		.enderecoEntrega(cl1.getEndereco())
+		.pagamento(new PagamentoBoleto())
+		.itensPedido(null)
+		.build();
+	ItemPedido item1 = ItemPedido.builder()
+		.pedido(pedido)
+		.produto(produto1)
+		.desconto(BigDecimal.ZERO)
+		.quantidade(1)
+		.build();
+	ItemPedido item2 = ItemPedido.builder()
+		.pedido(pedido)
+		.produto(produto2)
+		.desconto(BigDecimal.ZERO)
+		.quantidade(1)
+		.build();
+	pedido.setItensPedido(new HashSet<>(Arrays.asList(item1, item2)));	
+	pedidoService.insert(pedido);
     }
 }

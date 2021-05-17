@@ -20,18 +20,18 @@ public interface ServiceInterface<T extends IdEntity<ID>, ID> {
 
     RepositoryInterface<T, ID> getRepositoryInterface();
 
-    default void processBeforeInsert(T object) throws ServiceException {
-	object.checkBeforeInsert();
+    default T processBeforeInsert(T object) throws ServiceException {
+	return object;
     }
 
-    default void processBeforeUpdate(T object) throws ServiceException {
-	object.checkBeforeUpdate();
+    default T processBeforeUpdate(T object) throws ServiceException {
+	return object;
     }
 
     default T insert(T object) throws ServiceException {
-	processBeforeInsert(object);
-	object.setId(null);
-	return getRepositoryInterface().save(object);
+	T objectToInsert = processBeforeInsert(object);
+	objectToInsert.setId(null);
+	return getRepositoryInterface().save(objectToInsert);
     }
 
     default void insertAll(Iterable<? extends T> objects) throws ServiceException {
@@ -41,8 +41,8 @@ public interface ServiceInterface<T extends IdEntity<ID>, ID> {
     }
 
     default T update(T object) throws ServiceException {
-	processBeforeUpdate(object);
-	return getRepositoryInterface().save(object);
+	object.checkBeforeUpdate();
+	return getRepositoryInterface().save(processBeforeUpdate(object));
     }
 
     default void delete(T object) throws ServiceException {
@@ -54,7 +54,7 @@ public interface ServiceInterface<T extends IdEntity<ID>, ID> {
 	return getRepositoryInterface().findAll();
     }
 
-    default T findById(ID id) throws ObjectNotFoundException {
+    default T findById(ID id) throws ObjectNotFoundException, ServiceException {
 	Optional<T> obj = getRepositoryInterface().findById(id);
 	return obj.orElseThrow(() -> new ObjectNotFoundException((Serializable) id, this.getClass().getName()));
     }
