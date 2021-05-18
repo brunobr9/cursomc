@@ -94,7 +94,7 @@ public class DBService {
 		.senha("987654")
 		.perfis(new HashSet<>(Arrays.asList(Perfil.CLIENTE)))
 		.build();
-	 cl2 = clienteService.insert(cl2);
+	clienteService.insert(cl2);
 	
 	Pedido pedido = Pedido.builder()
 		.dataPedido(LocalDateTime.now())

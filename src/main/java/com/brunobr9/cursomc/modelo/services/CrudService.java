@@ -23,10 +23,17 @@ public abstract class CrudService<T extends IdEntity<ID>, ID> implements Service
     private RepositoryInterface<T, ID> repositoryInterface;
 
     protected T processBeforeInsert(T object) throws ServiceException {
+	if (object == null) {
+	    throw new ServiceException("Objeto não pode ser nulo!");
+	}
+
 	return object;
     }
 
     protected T processBeforeUpdate(T object) throws ServiceException {
+	if (object == null || object.getId() == null) {
+	    throw new ServiceException("Objeto não pode ser nulo!");
+	}
 	return object;
     }
 
