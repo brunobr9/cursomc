@@ -35,15 +35,15 @@ public class PedidoResource implements ResourcesInterface<PedidoDTO, Pedido> {
 	return new PedidoDTO(pedido);
     }
 
-    @GetMapping(path = PAGE)
-    @Override
-    public ResponseEntity<Page<PedidoDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    @GetMapping(path = PAGE + "-cliente")
+    public ResponseEntity<Page<PedidoDTO>> findPageCliente(
+	    @RequestParam(value = "page", defaultValue = "0") Integer page,
 	    @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
 	    @RequestParam(value = "orderBy", defaultValue = "dataPedido") String orderBy,
 	    @RequestParam(value = "direction", defaultValue = "DESC") String direction)
 	    throws ObjectNotFoundException, ServiceException {
 
-	Page<Pedido> pageEntity = getService().findPageByCliente(page, linesPerPage, orderBy, direction);
+	Page<Pedido> pageEntity = getService().findPageCliente(page, linesPerPage, orderBy, direction);
 	Page<PedidoDTO> pageDTO = pageEntity.map(this::dataObjectConverter);
 
 	return ResponseEntity.ok().body(pageDTO);
