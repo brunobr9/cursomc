@@ -1,19 +1,16 @@
 package com.brunobr9.cursomc.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brunobr9.cursomc.domain.Categoria;
-import com.brunobr9.cursomc.modelo.services.ServiceInterface;
+import com.brunobr9.cursomc.modelo.services.CrudService;
 import com.brunobr9.cursomc.repository.CategoriaRepository;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 @Service
-@Getter
-@AllArgsConstructor
-public class CategoriaService implements ServiceInterface<Categoria, Long> {
+public class CategoriaService extends CrudService<Categoria, Long> {
 
+    @Autowired
     private CategoriaRepository repositoryInterface;
 
     public Categoria findByNome(String nome) {

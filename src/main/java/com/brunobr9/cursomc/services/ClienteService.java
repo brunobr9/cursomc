@@ -1,6 +1,7 @@
 package com.brunobr9.cursomc.services;
 
 import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -8,30 +9,27 @@ import com.brunobr9.cursomc.domain.Cliente;
 import com.brunobr9.cursomc.domain.enums.Perfil;
 import com.brunobr9.cursomc.exceptions.AuthorizationException;
 import com.brunobr9.cursomc.exceptions.ServiceException;
-import com.brunobr9.cursomc.modelo.services.ServiceInterface;
+import com.brunobr9.cursomc.modelo.services.CrudService;
 import com.brunobr9.cursomc.repository.ClienteRepository;
 import com.brunobr9.cursomc.security.UserSS;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 @Service
-@Getter
-@AllArgsConstructor
-public class ClienteService implements ServiceInterface<Cliente, Long> {
+public class ClienteService extends CrudService<Cliente, Long> {
 
+    @Autowired
     private ClienteRepository repositoryInterface;
 
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public Cliente processBeforeInsert(Cliente cliente) throws ServiceException {
+    protected Cliente processBeforeInsert(Cliente cliente) {
 	cliente.setSenha(bCryptPasswordEncoder.encode(cliente.getSenha()));
 	return cliente;
     }
 
     @Override
-    public Cliente processBeforeUpdate(Cliente cliente) throws ServiceException {
+    protected Cliente processBeforeUpdate(Cliente cliente) throws ServiceException {
 	Cliente clienteDB = repositoryInterface.findById(cliente.getId()).orElse(null);
 	if (clienteDB == null) {
 	    throw new ServiceException("Cliente não encontrado.");
@@ -53,7 +51,7 @@ public class ClienteService implements ServiceInterface<Cliente, Long> {
 	    throw new AuthorizationException("Acesso negado.");
 	}
 
-	return ServiceInterface.super.findById(id);
+	return super.findById(id);
     }
 
 }

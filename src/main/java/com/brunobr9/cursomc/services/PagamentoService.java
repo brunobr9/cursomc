@@ -4,22 +4,14 @@ import org.springframework.stereotype.Service;
 
 import com.brunobr9.cursomc.domain.Pagamento;
 import com.brunobr9.cursomc.exceptions.ServiceException;
-import com.brunobr9.cursomc.modelo.services.ServiceInterface;
-import com.brunobr9.cursomc.repository.PagamentoRepository;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.brunobr9.cursomc.modelo.services.CrudService;
 
 @Service
-@Getter
-@AllArgsConstructor
-public class PagamentoService implements ServiceInterface<Pagamento, Long> {
-
-    private PagamentoRepository repositoryInterface;
+public class PagamentoService extends CrudService<Pagamento, Long> {
 
     public void processarPagamento(Pagamento pagamento) throws ServiceException {
 	pagamento.processarPagamento();
-	ServiceInterface.super.insert(pagamento);
+	super.insert(pagamento);
     }
 
 }

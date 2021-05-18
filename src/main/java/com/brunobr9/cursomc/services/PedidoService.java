@@ -3,6 +3,7 @@ package com.brunobr9.cursomc.services;
 import java.time.LocalDateTime;
 
 import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -12,38 +13,30 @@ import com.brunobr9.cursomc.domain.Pedido;
 import com.brunobr9.cursomc.domain.enums.EstadoPagamento;
 import com.brunobr9.cursomc.exceptions.AuthorizationException;
 import com.brunobr9.cursomc.exceptions.ServiceException;
-import com.brunobr9.cursomc.modelo.repository.RepositoryInterface;
-import com.brunobr9.cursomc.modelo.services.ServiceInterface;
+import com.brunobr9.cursomc.modelo.services.CrudService;
 import com.brunobr9.cursomc.repository.PedidoRepository;
 import com.brunobr9.cursomc.security.UserSS;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 @Service
-@Getter
-@AllArgsConstructor
-public class PedidoService implements ServiceInterface<Pedido, Long> {
+public class PedidoService extends CrudService<Pedido, Long> {
 
+    @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
     private PagamentoService pagamentoService;
 
+    @Autowired
     private ClienteService clienteService;
 
     @Override
-    public Pedido processBeforeInsert(Pedido pedido) throws ServiceException {
+    protected Pedido processBeforeInsert(Pedido pedido) throws ServiceException {
 	pedido.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
 	pedido.setDataPedido(LocalDateTime.now());
 
 	pagamentoService.processarPagamento(pedido.getPagamento());
 
 	return pedido;
-    }
-
-    @Override
-    public RepositoryInterface<Pedido, Long> getRepositoryInterface() {
-	return pedidoRepository;
     }
 
     public Page<Pedido> findPageByCliente(Integer page, Integer linesPerPage, String orderBy, String direction)
