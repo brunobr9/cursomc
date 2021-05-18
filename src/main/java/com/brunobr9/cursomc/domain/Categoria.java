@@ -33,9 +33,13 @@ public class Categoria implements IdLongNomeEntity {
     @Column(nullable = false)
     private String nome;
 
-    public Categoria(CategoriaDTO categoriaDTO) {
-	id = categoriaDTO.getId();
-	nome = categoriaDTO.getNome();
-    }
+	public Categoria(CategoriaDTO categoriaDTO) {
+		nome = categoriaDTO.getNome();
+	}
+
+	public Categoria(CategoriaDTO categoriaDTO, Long id) {
+		this(categoriaDTO);
+		this.id = id;
+	}
 
 }

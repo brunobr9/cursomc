@@ -1,7 +1,6 @@
 package com.brunobr9.cursomc.resources;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,7 +17,7 @@ import com.brunobr9.cursomc.domain.Pedido;
 import com.brunobr9.cursomc.dto.PedidoDTO;
 import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.resources.ApiCrudResources;
-import com.brunobr9.cursomc.modelo.resources.ResponseFactory;
+import com.brunobr9.cursomc.modelo.resources.ResponseEntityFactory;
 import com.brunobr9.cursomc.modelo.resources.annotations.PermissaoAdmin;
 import com.brunobr9.cursomc.services.PedidoService;
 
@@ -26,47 +25,45 @@ import com.brunobr9.cursomc.services.PedidoService;
 @RequestMapping("/pedido")
 public class PedidoResource implements ApiCrudResources<PedidoDTO> {
 
-    @Autowired
-    private PedidoService pedidoService;
+	@Autowired
+	private PedidoService pedidoService;
 
-    @GetMapping(path = PAGE)
-    public ResponseEntity<Page<PedidoDTO>> findPageCliente(
-	    @RequestParam(value = "page", defaultValue = "0") Integer page,
-	    @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
-	    @RequestParam(value = "orderBy", defaultValue = "dataPedido") String orderBy,
-	    @RequestParam(value = "direction", defaultValue = "DESC") String direction)
-	    throws ObjectNotFoundException, ServiceException {
+	@GetMapping(path = PAGE)
+	public ResponseEntity<Page<PedidoDTO>> findPageCliente(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "dataPedido") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "DESC") String direction)
+			throws ObjectNotFoundException, ServiceException {
 
-	Page<Pedido> pageEntity = pedidoService.findPageByCliente(page, linesPerPage, orderBy, direction);
-	Page<PedidoDTO> pageDTO = pageEntity.map(x -> new PedidoDTO(x));
+		Page<Pedido> pageEntity = pedidoService.findPageByCliente(page, linesPerPage, orderBy, direction);
 
-	return ResponseEntity.ok().body(pageDTO);
-    }
+		return ResponseEntityFactory.page(pageEntity, PedidoDTO::new);
+	}
 
-    @Override
-    public ResponseEntity<PedidoDTO> insert(@Valid PedidoDTO dto) throws ServiceException {
-	return new ResponseFactory<PedidoDTO>().create(pedidoService.insert(new Pedido(dto)).getId());
-    }
+	@Override
+	public ResponseEntity<PedidoDTO> insert(@Valid PedidoDTO dto) throws ServiceException {
+		return ResponseEntityFactory.created(pedidoService.insert(new Pedido(dto)));
+	}
 
-    @Override
-    @PermissaoAdmin
-    public ResponseEntity<Void> update(@Valid PedidoDTO dto, Long id) throws ServiceException {
-	dto.setId(id);
-	pedidoService.update(new Pedido(dto));
-	return ResponseFactory.create();
-    }
+	@Override
+	@PermissaoAdmin
+	public ResponseEntity<Void> update(@Valid PedidoDTO dto, Long id) throws ServiceException {
+		dto.setId(id);
+		pedidoService.update(new Pedido(dto));
+		return ResponseEntityFactory.noContent();
+	}
 
-    @Override
-    @PermissaoAdmin
-    public ResponseEntity<PedidoDTO> find(Long id) throws ObjectNotFoundException, ServiceException {
-	return ResponseEntity.ok().body(new PedidoDTO(pedidoService.findById(id)));
-    }
+	@Override
+	@PermissaoAdmin
+	public ResponseEntity<PedidoDTO> find(Long id) throws ObjectNotFoundException, ServiceException {
+		return ResponseEntityFactory.find(pedidoService.findById(id), PedidoDTO::new);
+	}
 
-    @Override
-    @PermissaoAdmin
-    public ResponseEntity<List<PedidoDTO>> findAll() {
-	return ResponseEntity.ok()
-		.body(pedidoService.findAll().stream().map(x -> new PedidoDTO(x)).collect(Collectors.toList()));
-    }
+	@Override
+	@PermissaoAdmin
+	public ResponseEntity<List<PedidoDTO>> findAll() {
+		return ResponseEntityFactory.list(pedidoService.findAll(), PedidoDTO::new);
+	}
 
 }

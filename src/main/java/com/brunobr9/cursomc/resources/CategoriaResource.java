@@ -1,7 +1,6 @@
 package com.brunobr9.cursomc.resources;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -15,7 +14,7 @@ import com.brunobr9.cursomc.domain.Categoria;
 import com.brunobr9.cursomc.dto.CategoriaDTO;
 import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.resources.ApiCrudResources;
-import com.brunobr9.cursomc.modelo.resources.ResponseFactory;
+import com.brunobr9.cursomc.modelo.resources.ResponseEntityFactory;
 import com.brunobr9.cursomc.modelo.resources.annotations.PermissaoAdmin;
 import com.brunobr9.cursomc.services.CategoriaService;
 
@@ -23,33 +22,31 @@ import com.brunobr9.cursomc.services.CategoriaService;
 @RequestMapping("/categoria")
 public class CategoriaResource implements ApiCrudResources<CategoriaDTO> {
 
-    @Autowired
-    private CategoriaService categoriaService;
+	@Autowired
+	private CategoriaService categoriaService;
 
-    @Override
-    @PermissaoAdmin
-    public ResponseEntity<CategoriaDTO> insert(@Valid CategoriaDTO dto) throws ServiceException {
-	return new ResponseFactory<CategoriaDTO>().create(categoriaService.insert(new Categoria(dto)).getId());
-    }
+	@Override
+	@PermissaoAdmin
+	public ResponseEntity<CategoriaDTO> insert(@Valid CategoriaDTO dto) throws ServiceException {
+		return ResponseEntityFactory.created(categoriaService.insert(new Categoria(dto)));
+	}
 
-    @Override
-    @PermissaoAdmin
-    public ResponseEntity<Void> update(@Valid CategoriaDTO dto, Long id) throws ServiceException {
-	dto.setId(id);
-	categoriaService.update(new Categoria(dto));
-	return ResponseFactory.create();
-    }
+	@Override
+	@PermissaoAdmin
+	public ResponseEntity<Void> update(@Valid CategoriaDTO dto, Long id) throws ServiceException {
+		categoriaService.update(new Categoria(dto, id));
+		return ResponseEntityFactory.noContent();
+	}
 
-    @Override
-    @PermissaoAdmin
-    public ResponseEntity<CategoriaDTO> find(Long id) throws ObjectNotFoundException, ServiceException {
-	return ResponseEntity.ok().body(new CategoriaDTO(categoriaService.findById(id)));
-    }
+	@Override
+	@PermissaoAdmin
+	public ResponseEntity<CategoriaDTO> find(Long id) throws ObjectNotFoundException, ServiceException {
+		return ResponseEntityFactory.find(categoriaService.findById(id), CategoriaDTO::new);
+	}
 
-    @Override
-    public ResponseEntity<List<CategoriaDTO>> findAll() {
-	return ResponseEntity.ok()
-		.body(categoriaService.findAll().stream().map(x -> new CategoriaDTO(x)).collect(Collectors.toList()));
-    }
+	@Override
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		return ResponseEntityFactory.list(categoriaService.findAll(), CategoriaDTO::new);
+	}
 
 }
