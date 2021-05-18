@@ -13,18 +13,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JWTUtil {
 
-    @Value("$(jwt.secret)")
+    @Value("${jwt.secret}")
     private String secret;
 
-//    @Value("$(jwt.expiration)")
-//    private Long expiration;
+    @Value("${jwt.expiration}")
+    private Long expiration;
 
     public String generateToken(String username) {
 	return Jwts.builder()
 		.setSubject(username)
-		.setExpiration(new Date(System.currentTimeMillis() + 3600000l))
+		.setExpiration(new Date(System.currentTimeMillis() + expiration))
 		.signWith(SignatureAlgorithm.HS512, secret.getBytes(StandardCharsets.UTF_8))
-//		.signWith(SignatureAlgorithm.HS512, DatatypeConverter.parseBase64Binary(secret))
 		.compact();
     }
 
