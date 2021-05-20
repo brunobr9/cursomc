@@ -13,12 +13,12 @@ import com.brunobr9.cursomc.domain.Pedido;
 import com.brunobr9.cursomc.domain.enums.EstadoPagamento;
 import com.brunobr9.cursomc.exceptions.AuthorizationException;
 import com.brunobr9.cursomc.exceptions.ServiceException;
-import com.brunobr9.cursomc.modelo.services.CrudService;
+import com.brunobr9.cursomc.modelo.services.AbstractCrudService;
 import com.brunobr9.cursomc.repository.PedidoRepository;
 import com.brunobr9.cursomc.security.UserSS;
 
 @Service
-public class PedidoService extends CrudService<Pedido, Long> {
+public class PedidoService extends AbstractCrudService<Pedido, Long> {
 
     @Autowired
     private PedidoRepository pedidoRepository;

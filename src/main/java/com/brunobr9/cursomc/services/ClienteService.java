@@ -9,12 +9,12 @@ import com.brunobr9.cursomc.domain.Cliente;
 import com.brunobr9.cursomc.domain.enums.Perfil;
 import com.brunobr9.cursomc.exceptions.AuthorizationException;
 import com.brunobr9.cursomc.exceptions.ServiceException;
-import com.brunobr9.cursomc.modelo.services.CrudService;
+import com.brunobr9.cursomc.modelo.services.AbstractCrudService;
 import com.brunobr9.cursomc.repository.ClienteRepository;
 import com.brunobr9.cursomc.security.UserSS;
 
 @Service
-public class ClienteService extends CrudService<Cliente, Long> {
+public class ClienteService extends AbstractCrudService<Cliente, Long> {
 
     @Autowired
     private ClienteRepository repositoryInterface;
