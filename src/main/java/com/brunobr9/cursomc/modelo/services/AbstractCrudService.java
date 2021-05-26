@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.brunobr9.cursomc.dto.IdEntityDTO;
 import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 import com.brunobr9.cursomc.modelo.repository.RepositoryInterface;
@@ -43,12 +42,6 @@ public abstract class AbstractCrudService<T extends IdEntity<ID>, ID> implements
 	@Override
 	public T insert(T object) throws ServiceException {
 		T objectToInsert = processBeforeInsert(object);
-		return repositoryInterface.save(objectToInsert);
-	}
-
-	public <S extends IdEntityDTO<Long>> T insert(S dto, EntityConverter<S, T> converter) throws ServiceException {
-		T entity = converter.toEntity(dto);
-		T objectToInsert = processBeforeInsert(entity);
 		return repositoryInterface.save(objectToInsert);
 	}
 

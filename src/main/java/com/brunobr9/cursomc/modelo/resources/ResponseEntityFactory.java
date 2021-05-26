@@ -2,6 +2,7 @@ package com.brunobr9.cursomc.modelo.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -45,8 +46,8 @@ public class ResponseEntityFactory {
 	 * @param converter
 	 * @return ResponseEntity of list
 	 */
-	public static <S, T> ResponseEntity<List<S>> list(List<T> list, DTOConverter<S, T> converter) {
-		return ResponseEntity.ok().body(list.stream().map(converter::toDTO).collect(Collectors.toList()));
+	public static <S, T> ResponseEntity<List<S>> list(List<T> list, Function<T, S> converter) {
+		return ResponseEntity.ok().body(list.stream().map(converter).collect(Collectors.toList()));
 	}
 
 	/**
@@ -57,8 +58,8 @@ public class ResponseEntityFactory {
 	 * @param converter
 	 * @return ResponseEntity of find
 	 */
-	public static <S, T> ResponseEntity<S> find(T t, DTOConverter<S, T> converter) {
-		return ResponseEntity.ok().body(converter.toDTO(t));
+	public static <S, T> ResponseEntity<S> find(T t, Function<T, S> converter) {
+		return ResponseEntity.ok().body(converter.apply(t));
 	}
 
 	/**
@@ -69,8 +70,8 @@ public class ResponseEntityFactory {
 	 * @param converter
 	 * @return ResponseEntity of page
 	 */
-	public static <S, T> ResponseEntity<Page<S>> page(Page<T> page, DTOConverter<S, T> converter) {
-		return ResponseEntity.ok().body(page.map(converter::toDTO));
+	public static <S, T> ResponseEntity<Page<S>> page(Page<T> page, Function<T, S> converter) {
+		return ResponseEntity.ok().body(page.map(converter));
 	}
 
 }
