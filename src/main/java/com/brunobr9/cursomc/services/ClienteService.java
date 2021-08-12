@@ -16,42 +16,42 @@ import com.brunobr9.cursomc.security.UserSS;
 @Service
 public class ClienteService extends AbstractCrudService<Cliente, Long> {
 
-    @Autowired
-    private ClienteRepository repositoryInterface;
+	@Autowired
+	private ClienteRepository repositoryInterface;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    protected Cliente processBeforeInsert(Cliente cliente) {
-	cliente.setSenha(bCryptPasswordEncoder.encode(cliente.getSenha()));
-	return cliente;
-    }
-
-    @Override
-    protected Cliente processBeforeUpdate(Cliente cliente) throws ServiceException {
-	Cliente clienteDB = repositoryInterface.findById(cliente.getId()).orElse(null);
-	if (clienteDB == null) {
-	    throw new ServiceException("Cliente não encontrado.");
-	}
-	clienteDB.setNome(cliente.getNome());
-	clienteDB.setEmail(cliente.getEmail());
-
-	return clienteDB;
-    }
-
-    public Cliente findByEmail(String email) {
-	return repositoryInterface.findByEmail(email);
-    }
-
-    @Override
-    public Cliente findById(Long id) throws ObjectNotFoundException, ServiceException {
-	UserSS user = UserService.authenticated();
-	if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
-	    throw new AuthorizationException("Acesso negado.");
+	@Override
+	protected Cliente processBeforeInsert(Cliente cliente) {
+		cliente.setSenha(bCryptPasswordEncoder.encode(cliente.getSenha()));
+		return cliente;
 	}
 
-	return super.findById(id);
-    }
+	@Override
+	protected Cliente processBeforeUpdate(Cliente cliente) throws ServiceException {
+		Cliente clienteDB = repositoryInterface.findById(cliente.getId()).orElse(null);
+		if (clienteDB == null) {
+			throw new ServiceException("Cliente não encontrado.");
+		}
+
+		clienteDB.atualizarCliente(cliente);
+
+		return clienteDB;
+	}
+
+	public Cliente findByEmail(String email) {
+		return repositoryInterface.findByEmail(email);
+	}
+
+	@Override
+	public Cliente findById(Long id) throws ObjectNotFoundException, ServiceException {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado.");
+		}
+
+		return super.findById(id);
+	}
 
 }

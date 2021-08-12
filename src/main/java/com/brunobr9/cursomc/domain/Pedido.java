@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.brunobr9.cursomc.domain.enums.EstadoPagamento;
 import com.brunobr9.cursomc.dto.PedidoDTO;
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 
@@ -33,39 +34,44 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Pedido implements IdEntity<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@Column(nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private LocalDateTime dataPedido;
+	@Column(nullable = false)
+	private LocalDateTime dataPedido;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "cliente_id", nullable = false)
+	private Cliente cliente;
 
-    @OneToMany(mappedBy = "id.pedido", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<ItemPedido> itensPedido;
+	@OneToMany(mappedBy = "id.pedido", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<ItemPedido> itensPedido;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "enderecoEntrega_id", nullable = false)
-    private Endereco enderecoEntrega;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "enderecoEntrega_id", nullable = false)
+	private Endereco enderecoEntrega;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "pagamento_id", nullable = false)
-    private Pagamento pagamento;
+	@OneToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "pagamento_id", nullable = false)
+	private Pagamento pagamento;
 
-    public Pedido() {
-	itensPedido = new HashSet<>();
-    }
+	public Pedido() {
+		itensPedido = new HashSet<>();
+	}
 
-    public Pedido(PedidoDTO pedidoDTO) {
-	id = pedidoDTO.getId();
-	cliente = new Cliente(pedidoDTO.getCliente());
-	dataPedido = pedidoDTO.getDataPedido();
-    }
+	public Pedido(PedidoDTO pedidoDTO) {
+		id = pedidoDTO.getId();
+		cliente = new Cliente(pedidoDTO.getCliente());
+		dataPedido = pedidoDTO.getDataPedido();
+	}
+
+	public void realizarPedido() {
+		getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
+		setDataPedido(LocalDateTime.now());
+	}
 
 }

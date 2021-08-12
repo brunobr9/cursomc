@@ -83,4 +83,8 @@ public class Cliente implements IdLongNomeEntity {
 	email = dto.getEmail();
     }
 
+	public void atualizarCliente(Cliente cliente) {
+		setNome(cliente.getNome());
+		setEmail(cliente.getEmail());
+	}
 }
