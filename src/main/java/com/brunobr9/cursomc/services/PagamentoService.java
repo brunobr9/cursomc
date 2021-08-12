@@ -9,9 +9,9 @@ import com.brunobr9.cursomc.modelo.services.AbstractCrudService;
 @Service
 public class PagamentoService extends AbstractCrudService<Pagamento, Long> {
 
-    public void processarPagamento(Pagamento pagamento) throws ServiceException {
-	pagamento.processarPagamento();
-	super.insert(pagamento);
-    }
+	public void processarPagamento(Pagamento pagamento) throws ServiceException {
+		pagamento.processarPagamento();
+		super.insert(pagamento);
+	}
 
 }

@@ -23,22 +23,22 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Estado implements IdLongNomeEntity {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@Column(nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private String nome;
-    
-    @Column(nullable = false)
-    private String sigla;
+	@Column(nullable = false)
+	private String nome;
 
-    public Estado(EstadoDTO dto) {
-	id = dto.getId();
-	nome = dto.getNome();
-    }
+	@Column(nullable = false)
+	private String sigla;
+
+	public Estado(EstadoDTO dto) {
+		id = dto.getId();
+		nome = dto.getNome();
+	}
 
 }

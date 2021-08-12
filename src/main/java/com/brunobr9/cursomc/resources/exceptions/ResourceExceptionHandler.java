@@ -26,44 +26,44 @@ public class ResourceExceptionHandler {
 //	return handleExceptionInternal(ex, standardError, headers, HttpStatus.NOT_FOUND, request);
 //    }
 
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandardError> handleObjectNotFoundException(ObjectNotFoundException ex,
-	    HttpServletRequest request) {
-	StandardError standardError = new StandardError(HttpStatus.NOT_FOUND.value(), ex.getMessage(),
-		System.currentTimeMillis());
+	@ExceptionHandler(ObjectNotFoundException.class)
+	public ResponseEntity<StandardError> handleObjectNotFoundException(ObjectNotFoundException ex,
+			HttpServletRequest request) {
+		StandardError standardError = new StandardError(HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+				System.currentTimeMillis());
 
-	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
-    }
-
-    @ExceptionHandler({ DataIntegrityViolationException.class })
-    public ResponseEntity<StandardError> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
-	    HttpServletRequest request) {
-	StandardError standardError = new StandardError(HttpStatus.BAD_REQUEST.value(), ex.getMessage(),
-		System.currentTimeMillis());
-
-	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
-    }
-
-    @ExceptionHandler({ MethodArgumentNotValidException.class })
-    public ResponseEntity<StandardError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex,
-	    HttpServletRequest request) {
-	ValidationError validationError = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validação",
-		System.currentTimeMillis());
-
-	for (FieldError f : ex.getBindingResult().getFieldErrors()) {
-	    validationError.addError(f.getField(), f.getDefaultMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
 	}
 
-	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
-    }
+	@ExceptionHandler({ DataIntegrityViolationException.class })
+	public ResponseEntity<StandardError> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
+			HttpServletRequest request) {
+		StandardError standardError = new StandardError(HttpStatus.BAD_REQUEST.value(), ex.getMessage(),
+				System.currentTimeMillis());
 
-    @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<StandardError> handleObjectNotFoundException(AuthorizationException ex,
-	    HttpServletRequest request) {
-	StandardError standardError = new StandardError(HttpStatus.FORBIDDEN.value(), ex.getMessage(),
-		System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+	}
 
-	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
-    }
+	@ExceptionHandler({ MethodArgumentNotValidException.class })
+	public ResponseEntity<StandardError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex,
+			HttpServletRequest request) {
+		ValidationError validationError = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validação",
+				System.currentTimeMillis());
+
+		for (FieldError f : ex.getBindingResult().getFieldErrors()) {
+			validationError.addError(f.getField(), f.getDefaultMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
+	}
+
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> handleObjectNotFoundException(AuthorizationException ex,
+			HttpServletRequest request) {
+		StandardError standardError = new StandardError(HttpStatus.FORBIDDEN.value(), ex.getMessage(),
+				System.currentTimeMillis());
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
+	}
 
 }

@@ -17,16 +17,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PedidoDTO implements IdEntityDTO<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private LocalDateTime dataPedido;
-    private ClienteDTO cliente;
+	private Long id;
+	private LocalDateTime dataPedido;
+	private ClienteDTO cliente;
 
-    public PedidoDTO(Pedido pedido) {
-	id = pedido.getId();
-	dataPedido = pedido.getDataPedido();
-	cliente = new ClienteDTO(pedido.getCliente());
-    }
+	public PedidoDTO(Pedido pedido) {
+		id = pedido.getId();
+		dataPedido = pedido.getDataPedido();
+		cliente = new ClienteDTO(pedido.getCliente());
+	}
 
 }

@@ -11,9 +11,9 @@ import com.brunobr9.cursomc.services.DBService;
 @Profile("test")
 public class TestConfig {
 
-    @Bean
-    public boolean initDatabase(DBService dbService) throws ServiceException {
-	dbService.initDatabase();
-	return true;
-    }
+	@Bean
+	public boolean initDatabase(DBService dbService) throws ServiceException {
+		dbService.initDatabase();
+		return true;
+	}
 }

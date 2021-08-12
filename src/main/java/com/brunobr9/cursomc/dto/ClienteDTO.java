@@ -20,21 +20,21 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ClienteDTO implements IdEntityDTO<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long id;
+	private Long id;
 
-    @NotEmpty(message = "Preenchimento Obrigatório")
-    @Length(min = 5, max = 8, message = "O nome deve ter entre 5 e 8 caracteres")
-    private String nome;
+	@NotEmpty(message = "Preenchimento Obrigatório")
+	@Length(min = 5, max = 8, message = "O nome deve ter entre 5 e 8 caracteres")
+	private String nome;
 
-    @NotEmpty(message = "Preenchimento Obrigatório")
-    @Email(message = "Email inválido")
-    private String email;
+	@NotEmpty(message = "Preenchimento Obrigatório")
+	@Email(message = "Email inválido")
+	private String email;
 
-    public ClienteDTO(Cliente cliente) {
-	id = cliente.getId();
-	nome = cliente.getNome();
-	email = cliente.getEmail();
-    }
+	public ClienteDTO(Cliente cliente) {
+		id = cliente.getId();
+		nome = cliente.getNome();
+		email = cliente.getEmail();
+	}
 }

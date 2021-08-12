@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import com.brunobr9.cursomc.exceptions.ServiceException;
 import com.brunobr9.cursomc.modelo.domain.IdEntity;
 
-//TODO corrigir parametros para <S extends T>
 public interface CrudService<T extends IdEntity<ID>, ID> {
 
 	T insert(T object) throws ServiceException;

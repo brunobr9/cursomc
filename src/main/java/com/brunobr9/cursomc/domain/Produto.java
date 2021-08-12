@@ -32,36 +32,36 @@ import lombok.Setter;
 @EqualsAndHashCode(exclude = "itensPedido")
 public class Produto implements IdLongNomeEntity {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@Column(nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private String nome;
+	@Column(nullable = false)
+	private String nome;
 
-    @Column(nullable = false)
-    private BigDecimal preco;
+	@Column(nullable = false)
+	private BigDecimal preco;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "categoria_id")
+	private Categoria categoria;
 
-    @OneToMany(mappedBy = "id.produto", fetch = FetchType.LAZY)
-    private Set<ItemPedido> itensPedido;
+	@OneToMany(mappedBy = "id.produto", fetch = FetchType.LAZY)
+	private Set<ItemPedido> itensPedido;
 
-    public List<Pedido> getPedidos() {
-	return itensPedido.stream().map(ItemPedido::getPedido).collect(Collectors.toList());
-    }
+	public List<Pedido> getPedidos() {
+		return itensPedido.stream().map(ItemPedido::getPedido).collect(Collectors.toList());
+	}
 
-    public Produto() {
-	itensPedido = new HashSet<>();
-    }
+	public Produto() {
+		itensPedido = new HashSet<>();
+	}
 
-    public BigDecimal getValorTotal() {
-	return itensPedido.stream().map(ItemPedido::getSubTotal).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
-    }
+	public BigDecimal getValorTotal() {
+		return itensPedido.stream().map(ItemPedido::getSubTotal).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+	}
 
 }

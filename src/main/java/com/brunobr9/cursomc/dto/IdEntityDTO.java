@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public interface IdEntityDTO<T> extends Serializable {
 
-    T getId();
+	T getId();
 
-    void setId(T t);
+	void setId(T t);
 
 }

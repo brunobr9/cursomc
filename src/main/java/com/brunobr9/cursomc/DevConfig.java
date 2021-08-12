@@ -12,17 +12,17 @@ import com.brunobr9.cursomc.services.DBService;
 @Profile("dev")
 public class DevConfig {
 
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String strategy;
+	@Value("${spring.jpa.hibernate.ddl-auto}")
+	private String strategy;
 
-    @Bean
-    public boolean initDatabase(DBService dbService) throws ServiceException {
-	if (!"create".equals(strategy)) {
-	    return false;
+	@Bean
+	public boolean initDatabase(DBService dbService) throws ServiceException {
+		if (!"create".equals(strategy)) {
+			return false;
+		}
+
+		dbService.initDatabase();
+
+		return true;
 	}
-
-	dbService.initDatabase();
-
-	return true;
-    }
 }

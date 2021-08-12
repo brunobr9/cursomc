@@ -19,16 +19,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CategoriaDTO implements IdEntityDTO<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long id;
+	private Long id;
 
-    @NotEmpty(message = "Preenchimento Obrigatório")
-    @Length(min = 5, max = 15, message = "O nome deve ter entre 5 e 15 caracteres")
-    private String nome;
+	@NotEmpty(message = "Preenchimento Obrigatório")
+	@Length(min = 5, max = 15, message = "O nome deve ter entre 5 e 15 caracteres")
+	private String nome;
 
-    public CategoriaDTO(Categoria categoria) {
-	id = categoria.getId();
-	nome = categoria.getNome();
-    }
+	public CategoriaDTO(Categoria categoria) {
+		id = categoria.getId();
+		nome = categoria.getNome();
+	}
 }

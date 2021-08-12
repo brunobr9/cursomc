@@ -15,19 +15,19 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 public class PagamentoBoleto extends Pagamento {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false)
-    private LocalDateTime dataVencimento;
+	@Column(nullable = false)
+	private LocalDateTime dataVencimento;
 
-    @Column(nullable = true)
-    private LocalDateTime dataPagamento;
+	@Column(nullable = true)
+	private LocalDateTime dataPagamento;
 
-    @Override
-    public void processarPagamento() {
-	super.processarPagamento();
-	setDataPagamento(getDataCadastro());
-	setDataVencimento(dataPagamento.plusDays(3));
-    }
+	@Override
+	public void processarPagamento() {
+		super.processarPagamento();
+		setDataPagamento(getDataCadastro());
+		setDataVencimento(dataPagamento.plusDays(3));
+	}
 
 }

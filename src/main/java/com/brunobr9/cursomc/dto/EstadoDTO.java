@@ -15,14 +15,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EstadoDTO implements IdEntityDTO<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private String nome;
+	private Long id;
+	private String nome;
 
-    public EstadoDTO(Estado entity) {
-	id = entity.getId();
-	nome = entity.getNome();
-    }
+	public EstadoDTO(Estado entity) {
+		id = entity.getId();
+		nome = entity.getNome();
+	}
 
 }

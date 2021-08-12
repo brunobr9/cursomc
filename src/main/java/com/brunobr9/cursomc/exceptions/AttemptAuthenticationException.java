@@ -4,9 +4,9 @@ import org.springframework.security.core.AuthenticationException;
 
 public class AttemptAuthenticationException extends AuthenticationException {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public AttemptAuthenticationException(String mensagem) {
-	super(mensagem);
-    }
+	public AttemptAuthenticationException(String mensagem) {
+		super(mensagem);
+	}
 }

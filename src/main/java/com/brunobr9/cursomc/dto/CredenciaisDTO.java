@@ -11,18 +11,18 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CredenciaisDTO implements IdEntityDTO<String> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private String email;
-    private String senha;
+	private String email;
+	private String senha;
 
-    @Override
-    public String getId() {
-	return email;
-    }
+	@Override
+	public String getId() {
+		return email;
+	}
 
-    @Override
-    public void setId(String usuario) {
-	this.email = usuario;
-    }
+	@Override
+	public void setId(String usuario) {
+		this.email = usuario;
+	}
 }

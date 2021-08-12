@@ -26,22 +26,22 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false, exclude = "dataCadastro")
 public abstract class Pagamento implements IdEntity<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@Column(nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private LocalDateTime dataCadastro;
+	@Column(nullable = false)
+	private LocalDateTime dataCadastro;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private EstadoPagamento estadoPagamento;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private EstadoPagamento estadoPagamento;
 
-    public void processarPagamento() {
-	setDataCadastro(LocalDateTime.now());
-    }
+	public void processarPagamento() {
+		setDataCadastro(LocalDateTime.now());
+	}
 
 }

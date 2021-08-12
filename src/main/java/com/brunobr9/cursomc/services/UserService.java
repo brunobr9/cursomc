@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserService {
 
-    public static UserSS authenticated() {
-	try {
-	    return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	} catch (Exception e) {
-	    return null;
+	public static UserSS authenticated() {
+		try {
+			return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
+			return null;
+		}
 	}
-    }
 }

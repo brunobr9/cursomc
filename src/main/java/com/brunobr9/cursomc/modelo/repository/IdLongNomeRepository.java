@@ -7,5 +7,5 @@ import com.brunobr9.cursomc.modelo.domain.IdLongNomeEntity;
 @NoRepositoryBean
 public interface IdLongNomeRepository<T extends IdLongNomeEntity> extends IdLongRepository<T> {
 
-    T findByNome(String nome);
-}	
+	T findByNome(String nome);
+}

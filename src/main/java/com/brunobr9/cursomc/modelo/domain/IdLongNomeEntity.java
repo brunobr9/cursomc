@@ -4,14 +4,14 @@ import com.brunobr9.cursomc.exceptions.ServiceException;
 
 public interface IdLongNomeEntity extends IdEntity<Long> {
 
-    String getNome();
+	String getNome();
 
-    @Override
-    default void checkBeforeInsert() throws ServiceException {
-	IdEntity.super.checkBeforeInsert();
+	@Override
+	default void checkBeforeInsert() throws ServiceException {
+		IdEntity.super.checkBeforeInsert();
 
-	if (getNome() == null) {
-	    throw new ServiceException("Nome não pode ser nulo!");
+		if (getNome() == null) {
+			throw new ServiceException("Nome não pode ser nulo!");
+		}
 	}
-    }
 }

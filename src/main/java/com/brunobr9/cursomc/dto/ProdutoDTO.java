@@ -17,16 +17,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProdutoDTO implements IdEntityDTO<Long> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private String nome;
-    private BigDecimal valorTotal;
+	private Long id;
+	private String nome;
+	private BigDecimal valorTotal;
 
-    public ProdutoDTO(Produto produto) {
-	id = produto.getId();
-	nome = produto.getNome();
-	valorTotal = produto.getValorTotal();
-    }
+	public ProdutoDTO(Produto produto) {
+		id = produto.getId();
+		nome = produto.getNome();
+		valorTotal = produto.getValorTotal();
+	}
 
 }
